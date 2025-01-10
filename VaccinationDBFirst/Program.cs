@@ -1,4 +1,5 @@
 ﻿
+
 using VaccinationDBFirst.Modeles;
 
 namespace VaccinationDBFirst
@@ -7,7 +8,8 @@ namespace VaccinationDBFirst
     {
         static void Main(string[] _)
         {
-            VaccinationContext context = new();
+            // Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=VaccinationDefi;Trusted_Connection=True;"  Microsoft.EntityFrameworkCore.SqlServer   -OutputDir Modeles
+            VaccinationDefiContext context = new();
 
             Console.WriteLine("Les types de vaccin.");
             foreach (Vaccin type in context.Vaccins)
@@ -15,8 +17,9 @@ namespace VaccinationDBFirst
 
             Console.WriteLine();
             Console.WriteLine("Les doses.");
-            foreach (Dose dose in context.Doses)
-                Console.WriteLine($"{dose.DoseId}. Patient : {dose.Nampatient}. Date : {dose.Date}. Type : {dose.Vaccin?.Nom}");
+            foreach (Immunisation i in context.Immunisations)
+                Console.WriteLine(i);
+            
         }
 
     }

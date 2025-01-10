@@ -9,5 +9,5 @@ public partial class Vaccin
 
     public string Nom { get; set; } = null!;
 
-    public virtual ICollection<Dose> Doses { get; set; } = new List<Dose>();
+    public virtual ICollection<Immunisation> Immunisations { get; set; } = new List<Immunisation>();
 }

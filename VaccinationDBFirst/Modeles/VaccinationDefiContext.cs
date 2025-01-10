@@ -4,34 +4,35 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VaccinationDBFirst.Modeles;
 
-public partial class VaccinationContext : DbContext
+public partial class VaccinationDefiContext : DbContext
 {
-    public VaccinationContext()
+    public VaccinationDefiContext()
     {
     }
 
-    public VaccinationContext(DbContextOptions<VaccinationContext> options)
+    public VaccinationDefiContext(DbContextOptions<VaccinationDefiContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<Dose> Doses { get; set; }
+    public virtual DbSet<Immunisation> Immunisations { get; set; }
 
     public virtual DbSet<Vaccin> Vaccins { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=Vaccination;Trusted_Connection=True;");
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=VaccinationDefi;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Dose>(entity =>
+        modelBuilder.Entity<Immunisation>(entity =>
         {
-            entity.HasIndex(e => e.VaccinId, "IX_Doses_VaccinId");
+            entity.HasIndex(e => e.VaccinId, "IX_Immunisations_VaccinId");
 
+            entity.Property(e => e.Discriminator).HasMaxLength(13);
             entity.Property(e => e.Nampatient).HasColumnName("NAMPatient");
 
-            entity.HasOne(d => d.Vaccin).WithMany(p => p.Doses).HasForeignKey(d => d.VaccinId);
+            entity.HasOne(d => d.Vaccin).WithMany(p => p.Immunisations).HasForeignKey(d => d.VaccinId);
         });
 
         OnModelCreatingPartial(modelBuilder);
